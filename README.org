@@ -1,0 +1,30 @@
+* Bday 
+
+Birthday greetings kata used for Property-Based Testing.
+Guided by and based on "Property-Based Testing with PropEr, Erlang and Elixir by Fred Hebert"
+Part II - Stateless Propertise in Practice
+Chapter 5. Responsible Testing
+
+** Usage
+
+** Installation
+
+```(ql:quickload '("cl-csv" "postmaster" "bday"))```
+
+*** Testing
+Load the required packages first: 
+```(ql:quickload '(:mockingbird :postmaster-mock cl-quickcheck))```
+Then:
+```(asdf:test-system "bday")```
+
+** Author
+
++ Jason S. Robinson (json.robinson@gmail.com)
+
+** Copyright
+
+Copyright (c) 2021 Jason S. Robinson (json.robinson@gmail.com)
+
+** License
+
+Licensed under the BSD-3 License.
