@@ -6,13 +6,25 @@
 (in-package :bday/tests.csv)
 
 (eval-when (:execute :compile-toplevel :load-toplevel)
-  (defmacro one-of (&rest exprs)
-    "Courtesy of Paul Graham's ANSI CL - Macros pg 170."
-    `(case (random, (length exprs))
-       ,@(let ((key -1))
-	   (mapcar #'(lambda (expr)
-		       `(,(incf key) ,expr))
-		   exprs)))))
+	   (defmacro one-of (&rest exprs)
+	     "Courtesy of Paul Graham's ANSI CL - Macros pg 170."
+	     `(case (random, (length exprs))
+		    ,@(let ((key -1))
+			(mapcar #'(lambda (expr)
+			       `(,(incf key) ,expr))
+			   exprs))))
+	   (defmacro csv-vector (field-size field-type)
+	     `(let* ((new-field field-type)
+		  (lim (length new-field)))
+		(cond ((= lim field-size)
+		    new-field)
+		   ((> lim size)
+		    (subseq new-field 0 field-size))
+		   (T (let ((size-diff (- field-size lim)))
+			(format nil "~A~A"
+				new-field
+				(make-string size-diff :initial-element #\+))))))))
+
 
 ;;; PROPERTIES
 (defun sample-test ()
@@ -60,25 +72,11 @@
 (define (name) field)
 
 (define (header size)
-  (let* ((new-name name)
-      (lim (length new-name)))
-    (cond ((= lim size)
-	new-name)
-       ((> lim size)
-	(subseq new-name 0 size))
-       (T (let ((size-diff (- size lim)))
-	    (format nil "~A~A"
-		    new-name
-		    (make-string size-diff :initial-element #\+)))))))
+  "Generates a type of string with characters from `*TEXTDATA*' for the CSV header, with a known
+fixed length SIZE as an argument."
+  (csv-vector size name))
 
 (define (records size)
-  (let* ((new-field field)
-      (lim (length new-field)))
-    (cond ((= lim size)
-	new-field)
-       ((> lim size)
-	(subseq new-field 0 size))
-       (T (let ((size-diff (- size lim)))
-	    (format nil "~A~A"
-		    new-field
-		    (make-string size-diff :initial-element #\+)))))))
+    "Generates a type of string with characters from `*TEXTDATA*' for the CSV row, with a known
+fixed length SIZE as an argument."
+  (csv-vector size field))
