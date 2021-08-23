@@ -32,6 +32,9 @@
 	       ":;<=>?@ !#$%&'()*+-./[\\]^_`{}")
   "Contains all the valid characters allowed by CSV specification.")
 
+
+
+
 (define (field)
   "Randomly generate valid CSV field data."
   (one-of (unquoted-text) (quotable-text)))
@@ -53,3 +56,29 @@
     (dotimes (i string-lim to-string)
       (setf (char to-string i)
 	 (char sample-text (random limit))))))
+
+(define (name) field)
+
+(define (header size)
+  (let* ((new-name name)
+      (lim (length new-name)))
+    (cond ((= lim size)
+	new-name)
+       ((> lim size)
+	(subseq new-name 0 size))
+       (T (let ((size-diff (- size lim)))
+	    (format nil "~A~A"
+		    new-name
+		    (make-string size-diff :initial-element #\+)))))))
+
+(define (records size)
+  (let* ((new-field field)
+      (lim (length new-field)))
+    (cond ((= lim size)
+	new-field)
+       ((> lim size)
+	(subseq new-field 0 size))
+       (T (let ((size-diff (- size lim)))
+	    (format nil "~A~A"
+		    new-field
+		    (make-string size-diff :initial-element #\+)))))))
