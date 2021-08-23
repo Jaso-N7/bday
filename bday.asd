@@ -2,8 +2,8 @@
   :version "0.1.0"
   :author "Jason S. Robinson"
   :license "BSD-3"
-  :depends-on ("cl-csv"
-               "postmaster")
+  :depends-on () ; "cl-csv"
+	         ; "postmaster"
   :components ((:module "src"
                 :components
                 ((:file "main"))))
@@ -14,13 +14,11 @@
   :author "Jason S. Robinson"
   :license "BSD-3"
   :depends-on ("bday"
-	       "mockingbird"
-	       "postmaster-mock"
-               "cl-quickcheck")
+               "cl-quickcheck") 	       ;; "mockingbird" ;; "postmaster-mock"
   :components ((:module "tests"
                 :components
                 ((:file "csv-test")
 		 (:file "suite"))))
   :description "Test system for bday"
   :perform (test-op (op c) (cl-quickcheck:quickcheck
-			     (symbol-call :bday/tests.suite :run)))
+			     (symbol-call :bday/tests.suite :run))))
