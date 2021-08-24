@@ -53,12 +53,12 @@
 
 (defun unquoted-text ()
   "Used to generate data that will require no known escape sequence once in it once converted."
-  (generate-bounded-string textdata))
+  (generate-bounded-string *textdata*))
 
 (defun quotable-text ()
   "Used to generate sequences that may possibly require escaping (the four escapable characters
  are only present in this one)."
-  (generate-bounded-string (concatenate 'string "\r\n,\"" textdata)))
+  (generate-bounded-string (concatenate 'string "\r\n,\"" *textdata*)))
 
 (defun generate-bounded-string (sample-text)
   (let* ((limit (length sample-text))
