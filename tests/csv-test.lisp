@@ -25,18 +25,7 @@
 				new-field
 				(make-string size-diff :initial-element #\+))))))))
 
-
-;;; PROPERTIES
-(defun sample-test ()
-  (named "Dummy Test"
-	 (is= 1 1)))
-
-
-;;; HELPERS
-
-
-
-;;; GENERATORS
+;;; DATA DEFINITIONS
 
 (defparameter *textdata*
   (concatenate 'string 
@@ -45,6 +34,26 @@
   "Contains all the valid characters allowed by CSV specification.")
 
 
+;;; PROPERTIES
+(defun sample-test ()
+  (named "can generate random bounded strings"
+	 (is stringp (generate-bounded-string *textdata*)))
+  (named "elements are bounded"
+	 (let* ((rando-str (generate-bounded-string *textdata*)))
+	   (is= T (guarded-string-p *textdata* rando-str))))
+  (named "generated string length never exceeds bounds"
+	 (is= T (<= (length (generate-bounded-string *textdata*))
+		   *textdata*))))
+
+
+;;; HELPERS
+
+(defun guarded-string-p (source sub-source)
+  (dolist (c sub-source T)
+    (unless (find c source)
+      (return NIL))))
+
+;;; GENERATORS
 
 
 (define (field)
