@@ -43,14 +43,14 @@
 	   (is= T (guarded-string-p *textdata* rando-str))))
   (named "generated string length never exceeds bounds"
 	 (is= T (<= (length (generate-bounded-string *textdata*))
-		   *textdata*))))
+		   (length  *textdata*)))))
 
 
 ;;; HELPERS
 
 (defun guarded-string-p (source sub-source)
-  (dolist (c sub-source T)
-    (unless (find c source)
+  (dotimes (c (length sub-source) T)
+    (unless (find (char sub-source c) source)
       (return NIL))))
 
 ;;; GENERATORS
