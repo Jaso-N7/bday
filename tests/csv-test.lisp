@@ -14,13 +14,13 @@
 			       `(,(incf key) ,expr))
 			   exprs))))
 	   (defmacro csv-vector (field-size field-type)
-	     `(let* ((new-field field-type)
+	     `(let* ((new-field ,field-type)
 		  (lim (length new-field)))
-		(cond ((= lim field-size)
+		(cond ((= lim ,field-size)
 		    new-field)
 		   ((> lim size)
-		    (subseq new-field 0 field-size))
-		   (T (let ((size-diff (- field-size lim)))
+		    (subseq new-field 0 ,field-size))
+		   (T (let ((size-diff (- ,field-size lim)))
 			(format nil "~A~A"
 				new-field
 				(make-string size-diff :initial-element #\+))))))))
@@ -79,4 +79,4 @@ fixed length SIZE as an argument."
 (define (records size)
     "Generates a type of string with characters from `*TEXTDATA*' for the CSV row, with a known
 fixed length SIZE as an argument."
-  (csv-vector size field))
+    (csv-vector size field))
