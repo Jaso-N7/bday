@@ -29,8 +29,8 @@
 
 (defparameter *textdata*
   (concatenate 'string 
-	       "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
-	       ":;<=>?@ !#$%&'()*+-./[\\]^_`{}")
+     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
+     ":;<=>?@ !#$%&'()*+-./[\\]^_`{}")
   "Contains all the valid characters allowed by CSV specification.")
 
 
@@ -77,6 +77,6 @@ fixed length SIZE as an argument."
   (csv-vector size name))
 
 (define (records size)
-    "Generates a type of string with characters from `*TEXTDATA*' for the CSV row, with a known
+  "Generates a type of string with characters from `*TEXTDATA*' for the CSV row, with a known
 fixed length SIZE as an argument."
-    (csv-vector size field))
+  (csv-vector size field))
