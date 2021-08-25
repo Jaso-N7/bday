@@ -14,16 +14,20 @@
 			       `(,(incf key) ,expr))
 			   exprs))))
 	   (defmacro csv-vector (field-size field-type)
-	     `(let* ((new-field ,field-type)
-		  (lim (length new-field)))
-		(cond ((= lim ,field-size)
-		    new-field)
-		   ((> lim size)
-		    (subseq new-field 0 ,field-size))
-		   (T (let ((size-diff (- ,field-size lim)))
-			(format nil "~A~A"
-				new-field
-				(make-string size-diff :initial-element #\+))))))))
+	     (let ((fs (gensym))
+		 (ft (gensym))
+		 (lim (gensym)))
+	       `(let* ((,fs ,field-size)
+		    (,ft ,field-type)
+		    (,lim (length ,ft)))
+		  (cond ((= ,lim ,fs)
+		      ,ft)
+		     ((> ,lim ,fs)
+		      (subseq ,ft 0 ,fs))
+		     (T (let ((size-diff (- ,fs ,lim)))
+			  (format nil "~A~A"
+				  ,ft
+				  (make-string size-diff :initial-element #\+)))))))))
 
 ;;; DATA DEFINITIONS
 
