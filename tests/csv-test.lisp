@@ -42,10 +42,7 @@
 
 ;;; HELPERS
 
-(defun guarded-string-p (source sub-source)
-  (dotimes (c (length sub-source) T)
-    (unless (find (char sub-source c) source)
-      (return NIL))))
+
 
 ;;; GENERATORS
 
