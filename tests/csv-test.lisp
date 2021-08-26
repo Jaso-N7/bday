@@ -49,7 +49,7 @@
 
 
 ;;; GENERATORS
-
+;; :field :name :header :record :csv-source :entry
 
 (define (field)
   "Randomly generate valid CSV field data."
@@ -73,14 +73,32 @@
       (setf (char to-string i)
 	 (char sample-text (random limit))))))
 
-(define (name) field)
+(define (name)
+  (generate field))
 
-(define (header size)
+(defun header (size)
   "Generates a type of string with characters from `*TEXTDATA*' for the CSV header, with a known
 fixed length SIZE as an argument."
   (csv-vector size name))
 
-(define (records size)
+(defun record (size)
   "Generates a type of string with characters from `*TEXTDATA*' for the CSV row, with a known
 fixed length SIZE as an argument."
   (csv-vector size field))
+
+;; List
+(define (csv-source)
+  "Picks up a SIZE value that represents how many entries will be in each row."
+  (let ((size an-integer))
+    (let (keys (header size))
+      (list (entry size keys)))))
+
+;; HashTable
+(defun entry (size keys)
+  "Generates one set of headers (the keys of every map), and then uses them to create
+a list of entries."
+  (let ((vals (record size))
+	(entries (make-hash-table :size size)))
+    (mapc #'(lambda (k v)
+	      (setf (gethash k entries) v))
+	  keys vals)))
