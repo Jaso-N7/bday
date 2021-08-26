@@ -15,26 +15,26 @@
 			   exprs))))
 	   (defmacro csv-vector (field-size field-type)
 	     (let ((fs (gensym))
-		 (ft (gensym))
-		 (lim (gensym)))
+		   (ft (gensym))
+		   (lim (gensym)))
 	       `(let* ((,fs ,field-size)
-		    (,ft ,field-type)
-		    (,lim (length ,ft)))
+		       (,ft ,field-type)
+		       (,lim (length ,ft)))
 		  (cond ((= ,lim ,fs)
-		      ,ft)
-		     ((> ,lim ,fs)
-		      (subseq ,ft 0 ,fs))
-		     (T (let ((size-diff (- ,fs ,lim)))
-			  (format nil "~A~A"
-				  ,ft
-				  (make-string size-diff :initial-element #\+)))))))))
+			 ,ft)
+			((> ,lim ,fs)
+			 (subseq ,ft 0 ,fs))
+			(T (let ((size-diff (- ,fs ,lim)))
+			     (format nil "~A~A"
+				     ,ft
+				     (make-string size-diff :initial-element #\+)))))))))
 
 ;;; DATA DEFINITIONS
 
 (defparameter *textdata*
   (concatenate 'string 
-     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
-     ":;<=>?@ !#$%&'()*+-./[\\]^_`{}")
+	       "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
+	       ":;<=>?@ !#$%&'()*+-./[\\]^_`{}")
   "Contains all the valid characters allowed by CSV specification.")
 
 
@@ -90,7 +90,7 @@ fixed length SIZE as an argument."
 (define (csv-source)
   "Picks up a SIZE value that represents how many entries will be in each row."
   (let ((size an-integer))
-    (let (keys (header size))
+    (let ((keys (header size)))
       (list (entry size keys)))))
 
 ;; HashTable
