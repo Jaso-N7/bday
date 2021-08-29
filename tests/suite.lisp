@@ -4,7 +4,7 @@
         :bday
         :cl-quickcheck)
   (:import-from :bday/tests.csv
-		#:sample-test)
+		#:csv-pbts)
   (:export #:run))
 
 (in-package :bday/tests.suite)
@@ -14,7 +14,7 @@
   "Do not run these tests.")
 
 (defparameter *suite*
-  (vector #'sample-test)
+  (vector #'csv-pbts)
   "Test Suite. Holds the names of all the tests to be run.")
 
 (defun run ()

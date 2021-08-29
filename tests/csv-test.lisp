@@ -1,7 +1,7 @@
 (defpackage bday/tests.csv
   (:documentation "Property-Based and Unit Tests for the CSV Parsing package.")
   (:use :cl :cl-quickcheck)
-  (:export #:sample-test))
+  (:export #:csv-pbts))
 
 (in-package :bday/tests.csv)
 
@@ -18,7 +18,7 @@
 		   (ft (gensym))
 		   (lim (gensym)))
 	       `(let* ((,fs ,field-size)
-		       (,ft ,field-type)
+		       (,ft (funcall ,field-type))
 		       (,lim (length ,ft)))
 		  (cond ((= ,lim ,fs)
 			 ,ft)
@@ -39,9 +39,11 @@
 
 
 ;;; PROPERTIES
-(defun sample-test ()
-  (named "Dummy test."
-	 (is= 1 1)))
+
+(defun csv-pbts ()
+  (named "roundtrip encoding/decoding"
+    (for-all ((maps csv-source))
+      (is= maps (csv-decode (csv-encode maps))))))
 
 
 ;;; HELPERS
