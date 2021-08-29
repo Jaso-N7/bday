@@ -64,7 +64,9 @@
 (defun quotable-text ()
   "Used to generate sequences that may possibly require escaping (the four escapable characters
  are only present in this one)."
-  (generate-bounded-string (concatenate 'string "\r\n,\"" *textdata*)))
+  (generate-bounded-string (concatenate 'string
+					#(#\NEWLINE #\" #\,)
+					*textdata*)))
 
 (defun generate-bounded-string (sample-text)
   (let* ((limit (length sample-text))
