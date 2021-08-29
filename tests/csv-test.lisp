@@ -34,7 +34,7 @@
 (defparameter *textdata*
   (concatenate 'string 
 	       "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
-	       ":;<=>?@ !#$%&'()*+-./[\\]^_`{}")
+	       ":;<=>?@ !#$%&'()*+-./[\\]^_`{|}~")
   "Contains all the valid characters allowed by CSV specification.")
 
 
