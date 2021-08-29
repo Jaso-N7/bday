@@ -79,13 +79,13 @@
   (generate field))
 
 (defun header (size)
-  "Generates a type of string with characters from `*TEXTDATA*' for the CSV header, with a known
-fixed length SIZE as an argument."
+  "Generates a type of string with characters from `*TEXTDATA*' for the CSV header,
+ with a known fixed length SIZE as an argument."
   (csv-vector size name))
 
 (defun record (size)
-  "Generates a type of string with characters from `*TEXTDATA*' for the CSV row, with a known
-fixed length SIZE as an argument."
+  "Generates a type of string with characters from `*TEXTDATA*' for the CSV row,
+ with a known fixed length SIZE as an argument." 
   (csv-vector size field))
 
 ;; List
@@ -101,6 +101,7 @@ fixed length SIZE as an argument."
 a list of entries."
   (let ((vals (record size))
 	(entries (make-hash-table :size size)))
-    (mapc #'(lambda (k v)
-	      (setf (gethash k entries) v))
-	  keys vals)))
+    (let ((zip (mapcar #'list (list keys) (list vals))))	; Enum.zip
+      (dolist (el zip entries)			; Map.new ?
+	(push (cdr el)
+	      (gethash (car el) entries))))))
