@@ -58,17 +58,18 @@
   (one-of (unquoted-text) (quotable-text)))
 
 (defun unquoted-text ()
-  "Used to generate data that will require no known escape sequence once in it once converted."
-  (generate-bounded-string *textdata*))
+  "Used to generate data that will require no known escape sequence once in it 
+once converted."
+  (a-csv-string *textdata*))
 
 (defun quotable-text ()
-  "Used to generate sequences that may possibly require escaping (the four escapable characters
- are only present in this one)."
-  (generate-bounded-string (concatenate 'string
-					#(#\NEWLINE #\" #\,)
-					*textdata*)))
+  "Used to generate sequences that may possibly require escaping (the four escapable
+ characters are only present in this one)."
+  (a-csv-string (concatenate 'string
+			     #(#\NEWLINE #\" #\,)
+			     *textdata*)))
 
-(defun generate-bounded-string (sample-text)
+(defun a-csv-string (sample-text)
   (let* ((limit (length sample-text))
       (to-string (make-string (random limit)
 			      :initial-element #\SPACE))
