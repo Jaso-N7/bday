@@ -71,12 +71,12 @@ once converted."
 
 (defun a-csv-string (sample-text)
   (let* ((limit (length sample-text))
-      (to-string (make-string (random limit)
-			      :initial-element #\SPACE))
-      (string-lim (length to-string)))
+	 (to-string (make-string (random limit)
+				 :initial-element #\SPACE))
+	 (string-lim (length to-string)))
     (dotimes (i string-lim to-string)
       (setf (char to-string i)
-	 (char sample-text (random limit))))))
+	    (char sample-text (random limit)))))) 		
 
 (define (name)
   (generate field))
@@ -103,8 +103,10 @@ once converted."
   "Generates one set of headers (the keys of every map), and then uses them to create
 a list of entries."
   (let ((vals (record size))
-	(entries (make-hash-table :size size)))
-    (let ((zip (mapcar #'list (list keys) (list vals))))	; Enum.zip
-      (dolist (el zip entries)			; Map.new ?
-	(push (cdr el)
+	(entries (make-hash-table :size 1 :test #'equal)))
+    (let ((zip (mapcar #'list 
+		       (list keys)
+		       (list vals))))	; Enum.zip
+      (dolist (el zip entries)		; Map.new ?
+	(push (cadr el)
 	      (gethash (car el) entries))))))
