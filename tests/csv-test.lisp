@@ -91,7 +91,7 @@ fixed length SIZE as an argument."
 ;; List
 (define (csv-source)
   "Picks up a SIZE value that represents how many entries will be in each row."
-  (let ((size an-integer))
+  (let ((size (generate an-index)))
     (let ((keys (header size)))
       (list (entry size keys)))))
 
