@@ -1,5 +1,11 @@
 * Bday 
 
+  ** ADVISORY
+  + This is for MY personal education only in my attempt to learn Property-Based Testing
+    from a highly recommended book.
+  + While I am using code and techniques from the book, It is NOT my intention
+    to turn this into a direct port, I am also learning Common Lisp and how to do PBT in CL.
+  
 Birthday greetings kata used for Property-Based Testing.
 Guided by and based on "Property-Based Testing with PropEr, Erlang and Elixir by Fred Hebert"
 Part II - Stateless Propertise in Practice
@@ -23,8 +29,9 @@ Then:
 
 ** Copyright
 
-Copyright (c) 2021 Jason S. Robinson (json.robinson@gmail.com)
+The original Erlang / Elixer code and concepts are from Frank Hebert, this is just my
+attempt at applying them in Common Lisp to have a better grasp on the concept.
 
 ** License
 
-Licensed under the BSD-3 License.
+
