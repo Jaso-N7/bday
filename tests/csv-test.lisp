@@ -100,9 +100,10 @@ a list of entries."
   (let ((vals (record size))
 	(entries (make-hash-table :size size :test #'equal)))
     (let ((zip (vector-zip keys vals)))	; Enum.zip
-      (dotimes (kv (length zip) entries)		; Map.new ?
-	(push (cadr (svref zip kv))
-	      (gethash (car (svref zip kv)) entries))))))
+      (dotimes (ind (length zip) entries)		; Map.new ?
+	(dolist (kv (svref zip ind))
+	  (push (cdr kv)
+		(gethash (car kv) entries)))))))
 
 ;; Vector -> Vector -> Vector
 (defun vector-zip (&rest vectors)
