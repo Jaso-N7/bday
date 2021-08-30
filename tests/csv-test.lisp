@@ -50,7 +50,7 @@
 
 (define (field)
   "Randomly generate valid CSV field data."
-  (one-of (unquoted-text) (quotable-text)))
+  (one-of (generate unquoted-text) (generate quotable-text)))
 
 (define (unquoted-text)
   "Used to generate data that will require no known escape sequence once in it 
