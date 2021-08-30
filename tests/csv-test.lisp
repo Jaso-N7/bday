@@ -57,12 +57,12 @@
   "Randomly generate valid CSV field data."
   (one-of (unquoted-text) (quotable-text)))
 
-(defun unquoted-text ()
+(define (unquoted-text)
   "Used to generate data that will require no known escape sequence once in it 
 once converted."
   (a-csv-string *textdata*))
 
-(defun quotable-text ()
+(define (quotable-text)
   "Used to generate sequences that may possibly require escaping (the four escapable
  characters are only present in this one)."
   (a-csv-string (concatenate 'string
