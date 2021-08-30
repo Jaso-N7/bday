@@ -40,10 +40,10 @@
 
 ;;; PROPERTIES
 
-(defun csv-pbts ()
-  (named "roundtrip encoding/decoding"
-    (for-all ((maps csv-source))
-      (is= maps (csv-decode (csv-encode maps))))))
+;; (defun csv-pbts ()
+;;   (named "roundtrip encoding/decoding"
+;;     (for-all ((maps csv-source))
+;;       (is= maps (csv-decode (csv-encode maps))))))
 
 
 ;;; HELPERS
