@@ -6,28 +6,22 @@
 (in-package :bday/tests.csv)
 
 (eval-when (:execute :compile-toplevel :load-toplevel)
-	   (defmacro one-of (&rest exprs)
-	     "Courtesy of Paul Graham's ANSI CL - Macros pg 170."
-	     `(case (random, (length exprs))
-		    ,@(let ((key -1))
-			(mapcar #'(lambda (expr)
-			       `(,(incf key) ,expr))
-			   exprs))))
-	   (defmacro csv-vector (field-size field-type)
-	     (let ((fs (gensym))
-		   (ft (gensym))
-		   (lim (gensym)))
-	       `(let* ((,fs ,field-size)
-		       (,ft (funcall ,field-type))
-		       (,lim (length ,ft)))
-		  (cond ((= ,lim ,fs)
-			 ,ft)
-			((> ,lim ,fs)
-			 (subseq ,ft 0 ,fs))
-			(T (let ((size-diff (- ,fs ,lim)))
-			     (format nil "~A~A"
-				     ,ft
-				     (make-string size-diff :initial-element #\+)))))))))
+  (defmacro one-of (&rest exprs)
+    "Courtesy of Paul Graham's ANSI CL - Macros pg 170."
+    `(case (random ,(length exprs))
+       ,@(let ((key -1))
+	   (mapcar #'(lambda (expr)
+		       `(,(incf key) ,expr))
+		   exprs))))
+  (defmacro csv-vector (field-size field-type)
+    (let ((fs (gensym))
+	  (ft (gensym)))
+      `(let ((,fs ,field-size)
+	     (,ft ,field-type))
+	 (let ((vec (make-array ,fs :element-type 'string)))
+	   (dotimes (ind ,fs vec)
+	     (setf (svref vec ind) (generate ,ft))))))))
+
 
 ;;; DATA DEFINITIONS
 
