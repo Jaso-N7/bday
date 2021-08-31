@@ -36,9 +36,8 @@
 
 (defun csv-pbts ()
   (named "roundtrip encoding/decoding"
-    ;; (for-all ((maps csv-source))
-    ;;   (is= maps (csv-decode (csv-encode maps))))
-    (is= T T)))
+    (for-all ((maps csv-source))
+      (is= maps (csv-decode (csv-encode maps))))))
 
 
 ;;; HELPERS
@@ -98,6 +97,7 @@ once converted."
 	   (is= T T)
 	   (push src sample))))
      sample))
+
 |#
 
 ;; List
