@@ -51,7 +51,7 @@
 (define (unquoted-text)
   "Used to generate data that will require no known escape sequence once in it 
 once converted."
-  (a-csv-string *textdata*))
+  (generate (a-csv-string *textdata*)))
 
 (define (quotable-text)
   "Used to generate sequences that may possibly require escaping (the four escapable
@@ -65,13 +65,14 @@ once converted."
   (one-of (generate unquoted-text) (generate quotable-text)))
 
 (defun a-csv-string (sample-text)
-  (let* ((limit (length sample-text))
-	 (to-string (make-string (random limit)
-				 :initial-element #\SPACE))
-	 (string-lim (length to-string)))
-    (dotimes (i string-lim to-string)
-      (setf (char to-string i)
-	    (char sample-text (random limit)))))) 		
+  (lambda ()
+    (let* ((limit (length sample-text))
+	   (to-string (make-string (random limit)
+				   :initial-element #\SPACE))
+	   (string-lim (length to-string)))
+      (dotimes (i string-lim to-string)
+	(setf (char to-string i)
+	      (char sample-text (random limit)))))))
 
 (define (name)
   (generate field))
