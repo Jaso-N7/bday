@@ -48,10 +48,6 @@
 ;;; GENERATORS
 ;; :field :name :header :record :csv-source :entry
 
-(define (field)
-  "Randomly generate valid CSV field data."
-  (one-of (generate unquoted-text) (generate quotable-text)))
-
 (define (unquoted-text)
   "Used to generate data that will require no known escape sequence once in it 
 once converted."
@@ -60,9 +56,13 @@ once converted."
 (define (quotable-text)
   "Used to generate sequences that may possibly require escaping (the four escapable
  characters are only present in this one)."
-  (a-csv-string (concatenate 'string
-			     #(#\NEWLINE #\" #\,)
-			     *textdata*)))
+  (generate (a-csv-string (concatenate 'string
+				       #(#\NEWLINE #\" #\,)
+				       *textdata*))))
+
+(define (field)
+  "Randomly generate valid CSV field data."
+  (one-of (generate unquoted-text) (generate quotable-text)))
 
 (defun a-csv-string (sample-text)
   (let* ((limit (length sample-text))
@@ -86,24 +86,41 @@ once converted."
  with a known fixed length SIZE as an argument." 
   (csv-vector size field))
 
+#|Imitates the PICK functionality
+
+(defmacro pick (&body body)
+  "Generates random instances of BODY and returns a list of results."
+  `(let (sample)
+     (quickcheck
+       (let ((*num-trials* (1+ (random 10))))
+	 (for-all ((src ,@body))
+	   (is= T T)
+	   (push src sample))))
+     sample))
+|#
+
 ;; List
 (define (csv-source)
-  "Picks up a SIZE value that represents how many entries will be in each row."
+  "Picks up a SIZE value that represents how many entries will be in each row.
+Returns a hashtable containing all the data of the needed records."
   (let ((size (generate an-index)))
     (let ((keys (header size)))
-      (list (entry size keys)))))
+      (entry size keys))))
 
 ;; Number -> Vector -> HashTable
 (defun entry (size keys)
   "Generates one set of headers (the keys of every map), and then uses them to create
 a list of entries."
-  (let ((vals (record size))
+  (let ((vals (records size))
 	(entries (make-hash-table :size size :test #'equal)))
-    (let ((zip (vector-zip keys vals)))	; Enum.zip
-      (dotimes (ind (length zip) entries)		; Map.new ?
-	(dolist (kv (svref zip ind))
-	  (push (cdr kv)
-		(gethash (car kv) entries)))))))
+    (dotimes (ind size entries)
+      (setf (gethash (svref keys ind) entries)
+	    (aref vals ind)))))
+
+(defun records (size)
+  (let ((rows (make-array size)))
+    (dotimes (s size rows)
+      (setf (aref rows s) (record size)))))
 
 ;; Vector -> Vector -> Vector
 (defun vector-zip (&rest vectors)
