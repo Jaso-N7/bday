@@ -122,35 +122,3 @@ a list of entries."
   (let ((rows (make-array size)))
     (dotimes (s size rows)
       (setf (aref rows s) (record size)))))
-
-;; Vector -> Vector -> Vector
-(defun vector-zip (&rest vectors)
-  "Zip Vectors. Effectively does for VECTORS what `MAPCAR #'LIST' does for lists."
-  (cond ((endp vectors)
-	 NIL)
-	((= 1 (length vectors))
-	 (car vectors))
-	(T
-	 (let ((vecta (car vectors)))
-	   (let ((zipped (make-array (length vecta)
-				     :initial-element '())))
-	     (dolist (vec (cdr vectors) zipped)
-	       (do ((index 0 (1+ index)))
-		   ((= index (length vecta)))
-		 (push (list (svref vecta index)
-			     (svref vec index))
-		       (svref zipped index)))))))))
-
-(use-package :cl-quickcheck)
-
-(when *testing*
-  (is= (bday/tests.csv::vector-zip #("last-name" "first-name" "lang")
-				   #("Robinson" "Jason" "EN")
-				   #("Dwayne" "Francis" "EN")
-				   #("Esperanda" "Jane" "ES"))
-       #((("last-name" "Esperanda") ("last-name" "Dwayne") ("last-name" "Robinson"))
-	 (("first-name" "Jane") ("first-name" "Francis") ("first-name" "Jason"))
-	 (("lang" "ES") ("lang" "EN") ("lang" "EN"))))
-  (is= NIL (vector-zip))
-  (is= #() (vector-zip #()))
-  (is= #(1) (vector-zip #(1))))
