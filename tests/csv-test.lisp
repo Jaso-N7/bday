@@ -1,6 +1,9 @@
 (defpackage bday/tests.csv
   (:documentation "Property-Based and Unit Tests for the CSV Parsing package.")
   (:use :cl :cl-quickcheck)
+  (:import-from :bday/csv
+		#:csv-encode
+		#:csv-decode)
   (:export #:csv-pbts))
 
 (in-package :bday/tests.csv)

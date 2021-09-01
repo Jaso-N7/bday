@@ -1,12 +1,13 @@
 (defsystem "bday"
-  :version "0.1.0"
+  :version "0.1.1"
   :author "Jason S. Robinson"
   :license "BSD-3"
-  :depends-on () ; "cl-csv"
-	         ; "postmaster"
+  :depends-on ("fare-csv")
+	         ;; "postmaster"
   :components ((:module "src"
                 :components
-                ((:file "main"))))
+                ((:file "bday-csv")
+		 (:file "main"))))
   :description "Birthday greetings kata used for Property-Based Testing."
   :in-order-to ((test-op (test-op "bday/tests"))))
 
