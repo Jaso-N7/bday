@@ -117,13 +117,12 @@ Returns a hashtable containing all the data of the needed records."
 (defun entry (size keys)
   "Generates one set of headers (the keys of every map), and then uses them to create
 a list of entries."
-  (let ((vals (records size))
-	(entries (make-hash-table :size size :test #'equal)))
-    (dotimes (ind size entries)
-      (setf (gethash (svref keys ind) entries)
-	    (aref vals ind)))))
+  (let ((vals (records size)))
+    (append (list keys) vals)))
 
 (defun records (size)
-  (let ((rows (make-array size)))
-    (dotimes (s size rows)
-      (setf (aref rows s) (record size)))))
+  "Generate SIZE rows of SIZE records each. Returns a list of lists. The list is of
+length SIZE, with each list containing SIZE elements."
+  (let (rows)
+    (dotimes (s size (nreverse rows))
+      (push (record size) rows))))
