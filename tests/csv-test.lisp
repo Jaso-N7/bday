@@ -16,8 +16,6 @@
 	   (mapcar #'(lambda (expr)
 		       `(,(incf key) ,expr))
 		   exprs))))
-  (defmacro csv-lists (&body lists)
-	    `(list ,@lists))
   (defmacro csv-list (field-size field-type)
     (let ((fs (gensym))
 	  (ft (gensym)))
