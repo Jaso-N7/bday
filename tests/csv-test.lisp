@@ -20,13 +20,12 @@
 	    `(list ,@lists))
   (defmacro csv-list (field-size field-type)
     (let ((fs (gensym))
-	  (ft (gensym))
-	  (row (gensym)))
+	  (ft (gensym)))
       `(let ((,fs ,field-size)
 	     (,ft ,field-type))
-	 (let ((,row (make-list ,fs :initial-element "")))
-	   (dolist (r ,row (nreverse ,row))
-	     (setf r (generate ,ft))))))))
+	 (let ((row (make-list ,fs :initial-element "")))
+	   (dotimes (r ,fs row)
+	     (setf (nth r row) (generate ,ft))))))))
 
 
 ;;; DATA DEFINITIONS
