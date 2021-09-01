@@ -18,14 +18,15 @@
 		   exprs))))
   (defmacro csv-lists (&body lists)
 	    `(list ,@lists))
-  (defmacro csv-vector (field-size field-type)
+  (defmacro csv-list (field-size field-type)
     (let ((fs (gensym))
-	  (ft (gensym)))
+	  (ft (gensym))
+	  (row (gensym)))
       `(let ((,fs ,field-size)
 	     (,ft ,field-type))
-	 (let ((vec (make-array ,fs :element-type 'string)))
-	   (dotimes (ind ,fs vec)
-	     (setf (svref vec ind) (generate ,ft))))))))
+	 (let ((,row (make-list ,fs :initial-element "")))
+	   (dolist (r ,row (nreverse ,row))
+	     (setf r (generate ,ft))))))))
 
 
 ;;; DATA DEFINITIONS
@@ -84,12 +85,12 @@ once converted."
 (defun header (size)
   "Generates a type of string with characters from `*TEXTDATA*' for the CSV header,
  with a known fixed length SIZE as an argument."
-  (csv-vector size name))
+  (csv-list size name))
 
 (defun record (size)
   "Generates a type of string with characters from `*TEXTDATA*' for the CSV row,
  with a known fixed length SIZE as an argument." 
-  (csv-vector size field))
+  (csv-list size field))
 
 #|Imitates the PICK functionality
 
