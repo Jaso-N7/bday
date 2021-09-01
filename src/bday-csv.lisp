@@ -16,5 +16,5 @@ header."
 (defun csv-decode (strng)
   "Takes a string that represents a valid CSV data dump and turn it into
 a list of lists with the header entries as the first list."
-  (with-input-from-string (strng)
-    (fare-csv:read-csv-stream strng)))
+  (with-input-from-string (s strng)
+    (fare-csv:read-csv-stream s)))
