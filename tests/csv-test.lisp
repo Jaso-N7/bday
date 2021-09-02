@@ -4,7 +4,8 @@
   (:import-from :bday/csv
 		#:csv-encode
 		#:csv-decode)
-  (:export #:csv-pbts))
+  (:export #:csv-pbts
+	   #:csv-examples))
 
 (in-package :bday/tests.csv)
 
@@ -34,6 +35,25 @@
 	       ":;<=>?@ !#$%&'()*+-./[\\]^_`{|}~")
   "Contains all the valid characters allowed by CSV specification.")
 
+;;; UNIT TESTS
+
+(defun csv-examples ()
+
+  (named "UNIT: duplicate keys unsupported"
+    (let* ((csv-sample
+	     "field_name,field_name,field_name
+aaa,bbb,ccc
+zzz,yyy,xxx
+")
+	   (dcode (csv-decode csv-sample)))
+      (is string= "field_name" (caar dcode))))
+  
+  (named "UNIT: roundtrip encoding/decoding of empty field(s)"
+    ;; This was revealed in the property testing that
+    ;; given '(("") ("") (NIL NIL)) leads to '(NIL NIL ("" ""))
+    ;; I modified csv-*code to check for NILs and return ("")
+    (let* ((sample '(("(7c~6JwERr9E8faA5m6-}Ai;+aNlMTu)N%|cy%;y") (""))))
+      (is= sample (csv-decode (csv-encode sample))))))
 
 ;;; PROPERTIES
 
