@@ -53,7 +53,14 @@ zzz,yyy,xxx
     ;; given '(("") ("") (NIL NIL)) leads to '(NIL NIL ("" ""))
     ;; I modified csv-*code to check for NILs and return ("")
     (let* ((sample '(("(7c~6JwERr9E8faA5m6-}Ai;+aNlMTu)N%|cy%;y") (""))))
-      (is= sample (csv-decode (csv-encode sample))))))
+      (is= sample (csv-decode (csv-encode sample)))))
+
+  (named "one column CSV files are inherently ambiguous"
+    (is= (concatenate 'string
+		      (string #\NEWLINE)
+		      (string #\NEWLINE))
+	 (csv-encode '(("") ("")))))
+  )
 
 ;;; PROPERTIES
 
@@ -128,8 +135,8 @@ once converted."
   "Picks up a SIZE value that represents how many entries will be in each row.
 Returns a hashtable containing all the data of the needed records."
   (let ((size (generate an-index)))
-    (let ((keys (header size)))
-      (entry size keys))))
+    (let ((keys (header (1+ size))))
+      (entry (1+ size) keys))))
 
 ;; Number -> Vector -> HashTable
 (defun entry (size keys)

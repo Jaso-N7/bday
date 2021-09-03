@@ -16,13 +16,18 @@ EXAMPLE: (pre-process-list '((\"field\") NIL) => ((\"field\") (\"\")"
 
 (defun csv-encode (lists)
   "Takes a list of lists containing strings and transform them into a string
- that is valid CSV, with a header. It is assumed that the first list is the
-header."
-  (with-output-to-string (var)
-    (fare-csv:write-csv-lines (pre-process-list lists) var)))
+ that is valid RFC 4180 CSV, with a header. It is assumed that the first list is
+ the header."
+  (fare-csv:with-rfc4180-csv-syntax ()
+    (let ((fare-csv:*separator* #\,))
+      (with-output-to-string (var)
+	(fare-csv:write-csv-lines (pre-process-list lists) var)))))
 
 (defun csv-decode (strng)
-  "Takes a string that represents a valid CSV data dump and turn it into
+  "Takes a string that represents a valid RFC 4180 CSV data dump and turn it into
 a list of lists with the header entries as the first list."
-  (pre-process-list (with-input-from-string (s strng)
-		      (fare-csv:read-csv-stream s))))
+  (pre-process-list
+   (fare-csv:with-rfc4180-csv-syntax ()
+     (let ((fare-csv:*separator* #\,))
+       (with-input-from-string (s strng)
+	 (fare-csv:read-csv-stream s))))))
