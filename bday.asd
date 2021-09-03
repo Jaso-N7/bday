@@ -18,7 +18,8 @@
                "cl-quickcheck") 	       ;; "mockingbird" ;; "postmaster-mock"
   :components ((:module "tests"
                 :components
-                ((:file "csv-test")
+                ((:file "generators")
+		 (:file "csv-test")
 		 (:file "suite"))))
   :description "Test system for bday"
   :perform (test-op (op c) (cl-quickcheck:quickcheck
