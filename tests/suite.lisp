@@ -15,8 +15,8 @@
   "Do not run these tests.")
 
 (defparameter *suite*
-  (vector #'csv-pbts
-	  #'csv-examples)
+  (vector #'csv-examples
+	  #'csv-pbts)
   "Test Suite. Holds the names of all the tests to be run.")
 
 (defun run ()
