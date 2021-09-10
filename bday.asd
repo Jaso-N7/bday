@@ -20,6 +20,7 @@
                 :components
                 ((:file "generators")
 		 (:file "csv-test")
+		 (:file "filter-test")
 		 (:file "suite"))))
   :description "Test system for bday"
   :perform (test-op (op c) (cl-quickcheck:quickcheck

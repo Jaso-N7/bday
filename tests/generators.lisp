@@ -13,13 +13,13 @@
 	   (mapcar #'(lambda (expr)
 		       `(,(incf key) ,expr))
 		   exprs))))
-  (defmacro csv-list (field-size field-type)
-    (let ((fs (gensym))
+  (defmacro csv-list (columns field-type)
+    (let ((cols (gensym))
 	  (ft (gensym)))
-      `(let ((,fs ,field-size)
+      `(let ((,cols ,columns)
 	     (,ft ,field-type))
-	 (let ((row (make-list ,fs :initial-element "")))
-	   (dotimes (r ,fs row)
+	 (let ((row (make-list ,cols :initial-element "")))
+	   (dotimes (r ,cols row)
 	     (setf (nth r row) (generate ,ft))))))))
 
 ;;; DATA DEFINITIONS
@@ -31,7 +31,8 @@
   "Contains all the valid characters allowed by CSV specification.")
 
 ;;; GENERATORS
-;; :field :name :header :record :csv-source :entry
+
+;; *-- CSV: CSV Parsing
 
 (define (unquoted-text)
   "Used to generate data that will require no known escape sequence once in it 
