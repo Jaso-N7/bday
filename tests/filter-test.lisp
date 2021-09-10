@@ -17,9 +17,8 @@
 	  (people (generate-people-for-years 3)))
       (mapcar #'(lambda (yeardata)
 		  (let ((birthdays (find-birthdays-for-year people yeardata)))
-		    (progn
-		      (every-birthday-once people birthdays)
-		      (on-right-date people birthdays))))
+		    (is= T (and (every-birthday-once people birthdays)
+				(on-right-date people birthdays)))))
 	      years))))
 
 ;;; PROPERTY TESTS
