@@ -89,7 +89,10 @@ zzz,yyy,xxx")))
 
 ;;; HELPERS
 
-
+(defun leap-year-p (year)
+  (if (zerop (mod yr 4))
+      (plusp (mod yr 100))
+      (zerop (mod yr 400))))
 
 ;;; GENERATORS
 ;; Custom generators from package BDAY/TESTS.GENERATORS
