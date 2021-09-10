@@ -93,3 +93,22 @@ zzz,yyy,xxx")))
 
 ;;; GENERATORS
 ;; Custom generators from package BDAY/TESTS.GENERATORS
+
+#| Filtering Records 
+
+Confirm if it is worth using brute force to search
+for matching birthdays, simulating running for every day
+of the year for 100 years.
+
+> (setq bdays (make-list (* 366 3) :initial-element '(("name" "bday") ("a" "31/02/1981"))))
+
+> (time (dotimes (i (* 366 100))
+          (mapc #'(lambda (bday)
+    	    (string= "03/10/1981" (cadadr bday)))
+	      bdays)))
+
+; (CMUCL) Evaluation took:
+;   0.06 seconds of real time
+;   0.061531 seconds of user run time
+
+|#
